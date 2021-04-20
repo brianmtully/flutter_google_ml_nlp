@@ -275,6 +275,23 @@ class EntityAnnotation {
 }
 
 class Entity {
+  Entity(
+      {this.type,
+      this.dateTimeGranularity,
+      this.dateTime,
+      this.airlineCode,
+      this.flightNumber,
+      this.unnormalizedCurrency,
+      this.integerPart,
+      this.fractionalPart,
+      this.parcelCarrier,
+      this.parcelTrackingNumber,
+      this.countryCode,
+      this.iban,
+      this.isbn,
+      this.paymentCardNetwork,
+      this.paymentCardNumber});
+
   Entity._(dynamic data)
       : type = data["type"] == null
             ? null
