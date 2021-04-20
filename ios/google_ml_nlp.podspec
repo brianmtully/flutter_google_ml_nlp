@@ -1,9 +1,9 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint flutter_google_ml_nlp.podspec` to validate before publishing.
+# Run `pod lib lint google_ml_nlp.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'flutter_google_ml_nlp'
+  s.name             = 'google_ml_nlp'
   s.version          = '0.0.1'
   s.summary          = 'Flutter plugin for Google ML Kit Natural Language Processing'
   s.description      = <<-DESC

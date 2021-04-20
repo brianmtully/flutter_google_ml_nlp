@@ -1,4 +1,4 @@
-package com.brianmtully.flutter.plugins.flutter_google_ml_nlp
+package com.brianmtully.flutter.plugins.google_ml_nlp
 import android.util.Log
 import com.google.mlkit.nl.entityextraction.*
 import io.flutter.plugin.common.MethodChannel
@@ -21,6 +21,11 @@ class GNLEntityExtractor {
                 .addOnFailureListener { _ -> /* Model downloading failed. */ }
     }
 
+    fun close(result : MethodChannel.Result) {
+        entityExtractor.close()
+        result.success(true)
+    }
+
     fun annotate(options : HashMap<String, Any>, result : MethodChannel.Result) {
         val params =
                 EntityExtractionParams.Builder(options.get("text") as String)
@@ -35,37 +40,55 @@ class GNLEntityExtractor {
                     .addOnSuccessListener { entityAnnotations ->
                         for (entityAnnotation in entityAnnotations) {
                             val entities: List<Entity> = entityAnnotation.entities
+                            var resEntityAnnotation = HashMap<String, Any>()
+                            resEntityAnnotation["annotatedText"] = entityAnnotation.annotatedText
+                            resEntityAnnotation["start"] = entityAnnotation.start
+                            resEntityAnnotation["end"] = entityAnnotation.end
+                            var resEntities = mutableListOf<HashMap<String,Any>>()
                             Log.d("text", entityAnnotation.annotatedText)
                             for (entity in entities) {
                                 var resEntity = HashMap<String, Any>()
                                 resEntity["type"] = entity.type;
+                                /*resEntity["text"] = entityAnnotation.annotatedText
+                                resEntity["start"] = entityAnnotation.start
+                                resEntity["end"] = entityAnnotation.end*/
                                 when (entity) {
                                     is DateTimeEntity -> {
-                                        resEntity["dateTimeGranularity"] = entity.dateTimeGranularity
+                                        resEntity["dateTimeGranularity"] = entity.dateTimeGranularity + 1
                                         resEntity["timestampMillis"] = entity.timestampMillis
-                                        results.add(resEntity);
                                     }
                                     is FlightNumberEntity -> {
                                         resEntity["airlineCode"] = entity.airlineCode
                                         resEntity["flightNumber"] = entity.flightNumber
-                                        results.add(resEntity);
                                     }
                                     is MoneyEntity -> {
                                         resEntity["unnormalizedCurrency"] = entity.unnormalizedCurrency
                                         resEntity["integerPart"] = entity.integerPart
                                         resEntity["fractionalPart"] = entity.fractionalPart
-                                        results.add(resEntity);
                                     }
                                     is TrackingNumberEntity -> {
                                         resEntity["parcelCarrier"] = entity.parcelCarrier
                                         resEntity["parcelTrackingNumber"] = entity.parcelTrackingNumber
-                                        results.add(resEntity);
+                                    }
+                                    is IbanEntity -> {
+                                        resEntity["iban"] = entity.iban
+                                        resEntity["ibanCountryCode"] = entity.ibanCountryCode
+                                    }
+                                    is IsbnEntity -> {
+                                        resEntity["isbn"] = entity.isbn
+                                    }
+                                    is PaymentCardEntity -> {
+                                        resEntity["paymentCardNetwork"] = entity.paymentCardNetwork
+                                        resEntity["paymentCardNumber"] = entity.paymentCardNumber
                                     }
                                     else -> {
                                         Log.d(TAG, "  $entity")
                                     }
                                 }
+                                resEntities.add(resEntity);
                             }
+                            resEntityAnnotation["entities"] = resEntities;
+                            results.add(resEntityAnnotation);
                         }
                         result.success(results);
                     }

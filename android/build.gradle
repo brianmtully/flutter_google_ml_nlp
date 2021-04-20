@@ -1,4 +1,4 @@
-group 'com.brianmtully.flutter.plugins.flutter_google_ml_nlp'
+group 'com.brianmtully.flutter.plugins.google_ml_nlp'
 version '1.0-SNAPSHOT'
 
 buildscript {

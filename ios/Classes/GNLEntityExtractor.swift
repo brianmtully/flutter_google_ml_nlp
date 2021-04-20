@@ -1,6 +1,6 @@
 //
 //  GNLEntityExtractor.swift
-//  flutter_google_ml_nlp
+//  google_ml_nlp
 //
 //  Created by Brian Tully on 4/17/21.
 //
@@ -22,6 +22,10 @@ class GNLEntityExtractor {
         entityExtractor.downloadModelIfNeeded(completion: {_ in
           // If the error is nil, the download completed successfully.
         })
+    }
+    
+    public func close(result: @escaping FlutterResult) {
+        result(true)
     }
     
     public func annotate(options: [String:Any] , result: @escaping FlutterResult) {
@@ -49,9 +53,22 @@ class GNLEntityExtractor {
                 if (res != nil) {
                 var returnValues = [[String:Any]]()
                 for annotation in res! {
+                  var returnAnnotation = [String:Any]()
+                    returnAnnotation["start"] = annotation.range.lowerBound
+                    returnAnnotation["end"] = annotation.range.upperBound
+                    let start = text.index(text.startIndex, offsetBy: annotation.range.lowerBound)
+                    let end = text.index(text.startIndex, offsetBy: annotation.range.upperBound-1)
+                    returnAnnotation["annotatedText"] = text[start...end]
+                    var returnEntities = [[String:Any]]()
                   let entities = annotation.entities
                   for entity in entities {
                     var returnEntity = [String:Any]()
+                    returnEntity["type"] = entity.entityType
+                    /*let start = text.index(text.startIndex, offsetBy: annotation.range.lowerBound)
+                    let end = text.index(text.startIndex, offsetBy: annotation.range.upperBound-1)
+                    returnEntity["text"] = text[start...end]
+                    returnEntity["start"] = annotation.range.lowerBound
+                    returnEntity["end"] = annotation.range.upperBound*/
                     switch entity.entityType {
                       case EntityType.dateTime:
                         guard let dateTimeEntity = entity.dateTimeEntity else {
@@ -60,7 +77,6 @@ class GNLEntityExtractor {
                         }
                         returnEntity["dateTimeGranularity"] = dateTimeEntity.dateTimeGranularity.rawValue
                         returnEntity["dateTime"] = dateTimeEntity.dateTime.timeIntervalSince1970
-                        returnValues.append(returnEntity)
                       case EntityType.flightNumber:
                         guard let flightNumberEntity = entity.flightNumberEntity else {
                           print("This field should be populated.")
@@ -68,7 +84,6 @@ class GNLEntityExtractor {
                         }
                         returnEntity["airlineCode"] = flightNumberEntity.airlineCode
                         returnEntity["flightNumber"] = flightNumberEntity.flightNumber
-                        returnValues.append(returnEntity)
                       case EntityType.money:
                         guard let moneyEntity = entity.moneyEntity else {
                           print("This field should be populated.")
@@ -77,7 +92,6 @@ class GNLEntityExtractor {
                         returnEntity["unnormalizedCurrency"] = moneyEntity.unnormalizedCurrency
                         returnEntity["integerPart"] = moneyEntity.integerPart
                         returnEntity["fractionalPart"] = moneyEntity.fractionalPart
-                        returnValues.append(returnEntity)
                       // Add additional cases as needed.
                     case EntityType.trackingNumber:
                         guard let trackingNumberEntity = entity.trackingNumberEntity else {
@@ -86,12 +100,34 @@ class GNLEntityExtractor {
                         }
                         returnEntity["parcelCarrier"] = trackingNumberEntity.parcelCarrier.rawValue
                         returnEntity["parcelTrackingNumber"] = trackingNumberEntity.parcelTrackingNumber
-                        returnValues.append(returnEntity)
-                      
+                    case EntityType.IBAN:
+                        guard let ibanEntity = entity.ibanEntity else{
+                            print("This field should be populated.")
+                            return
+                        }
+                        returnEntity["countryCode"] = ibanEntity.countryCode
+                        returnEntity["iban"] = ibanEntity.iban
+                    case EntityType.ISBN:
+                        guard let isbnEntity = entity.isbnEntity else{
+                            print("This field should be populated.")
+                            return
+                        }
+                        returnEntity["isbn"] = isbnEntity.isbn
+                    case EntityType.paymentCard:
+                        guard let paymentCardEntity = entity.paymentCardEntity else {
+                            print("This field shouldb be populated")
+                            return
+                        }
+                        returnEntity["paymentCardNetwork"] = paymentCardEntity.paymentCardNetwork.rawValue
+                        returnEntity["paymentCardNumber"] = paymentCardEntity.paymentCardNumber
                       default:
                         print("Entity: %@", entity);
                     }
+                    returnEntities.append(returnEntity)
+                    
                   }
+                    returnAnnotation["entities"] = returnEntities
+                    returnValues.append(returnAnnotation)
                 }
                 result(returnValues)
               }

@@ -1,4 +1,4 @@
-package com.brianmtully.flutter.plugins.flutter_google_ml_nlp
+package com.brianmtully.flutter.plugins.google_ml_nlp
 
 import androidx.annotation.NonNull
 import android.util.Log
@@ -37,7 +37,10 @@ class FlutterGoogleMlNlpPlugin: FlutterPlugin, MethodCallHandler {
     }
     else if (call.method == "EntityExtractor#annotate") {
       var options : HashMap<String, Any>? = call.argument("options")
-      options?.let { entityExtractor.annotate(it, result) };
+      options?.let { entityExtractor.annotate(it, result) }
+    }
+    else if (call.method == "EntityExtractor#close") {
+      entityExtractor.close(result)
     }
     else {
       result.notImplemented()

@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_google_ml_nlp/google_ml_nlp.dart';
+import 'package:google_ml_nlp/google_ml_nlp.dart';
 
 void main() {
   const MethodChannel channel =

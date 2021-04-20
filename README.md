@@ -1,4 +1,4 @@
-# flutter_google_ml_nlp
+# google_ml_nlp
 
 Flutter plugin for Google ML Kit Natural Language Processing
 

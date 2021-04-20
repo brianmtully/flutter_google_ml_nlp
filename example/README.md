@@ -1,6 +1,6 @@
-# flutter_google_ml_nlp_example
+# google_ml_nlp_example
 
-Demonstrates how to use the flutter_google_ml_nlp plugin.
+Demonstrates how to use the google_ml_nlp plugin.
 
 ## Getting Started
 

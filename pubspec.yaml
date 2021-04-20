@@ -1,4 +1,4 @@
-name: flutter_google_ml_nlp
+name: google_ml_nlp
 description: Flutter plugin for Google ML Kit Natural Language Processing
 version: 0.0.1
 author:
@@ -28,7 +28,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.brianmtully.flutter.plugins.flutter_google_ml_nlp
+        package: com.brianmtully.flutter.plugins.google_ml_nlp
         pluginClass: FlutterGoogleMlNlpPlugin
       ios:
         pluginClass: FlutterGoogleMlNlpPlugin

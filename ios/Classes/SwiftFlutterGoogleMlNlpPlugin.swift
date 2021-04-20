@@ -26,7 +26,11 @@ public class SwiftFlutterGoogleMlNlpPlugin: NSObject, FlutterPlugin {
     }
     else if call.method == "EntityExtractor#annotate" {
         let options : [String:Any] = args["options"] as? [String:Any] ?? ["text" : "test"]
-        entityExtractor?.annotate(options: options, result: result);
+        print(options)
+        entityExtractor?.annotate(options: options, result: result)
+    }
+    else if call.method == "EntityExtractor#close" {
+        entityExtractor?.close(result: result)
     }
     else {
         result(FlutterMethodNotImplemented)
