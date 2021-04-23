@@ -221,7 +221,6 @@ class EntityExtractor {
         'options': {'text': text}
       },
     );
-    print(reply);
     final List<EntityAnnotation> annotations = <EntityAnnotation>[];
     for (final dynamic data in reply) {
       annotations.add(EntityAnnotation._(data));
