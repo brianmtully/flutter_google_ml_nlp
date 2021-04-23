@@ -115,13 +115,13 @@ class GNLEntityExtractor {
                         returnEntity["isbn"] = isbnEntity.isbn
                     case EntityType.paymentCard:
                         guard let paymentCardEntity = entity.paymentCardEntity else {
-                            print("This field shouldb be populated")
+                            print("This field should be populated")
                             return
                         }
                         returnEntity["paymentCardNetwork"] = paymentCardEntity.paymentCardNetwork.rawValue
                         returnEntity["paymentCardNumber"] = paymentCardEntity.paymentCardNumber
                       default:
-                        print("Entity: %@", entity);
+                        // print("Entity: %@", entity);
                     }
                     returnEntities.append(returnEntity)
                     

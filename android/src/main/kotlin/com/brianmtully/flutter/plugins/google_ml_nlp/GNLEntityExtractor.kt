@@ -45,7 +45,7 @@ class GNLEntityExtractor {
                             resEntityAnnotation["start"] = entityAnnotation.start
                             resEntityAnnotation["end"] = entityAnnotation.end
                             var resEntities = mutableListOf<HashMap<String,Any>>()
-                            Log.d("text", entityAnnotation.annotatedText)
+                            // Log.d("text", entityAnnotation.annotatedText)
                             for (entity in entities) {
                                 var resEntity = HashMap<String, Any>()
                                 resEntity["type"] = entity.type;
@@ -82,7 +82,7 @@ class GNLEntityExtractor {
                                         resEntity["paymentCardNumber"] = entity.paymentCardNumber
                                     }
                                     else -> {
-                                        Log.d(TAG, "  $entity")
+                                        // Log.d(TAG, "  $entity")
                                     }
                                 }
                                 resEntities.add(resEntity);
