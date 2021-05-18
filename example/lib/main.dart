@@ -71,12 +71,17 @@ class _MyAppState extends State<MyApp> {
                         results = res;
                       });
                     }),
-                results != null &&
-                        results.length > 0 &&
-                        results[0].entities != null &&
-                        results[0].entities.length > 0
-                    ? Text(results[0].entities[0].type.toString())
-                    : Container(),
+                results != null
+                    ? Column(
+                        children: results.map<Column>((value) {
+                        return Column(
+                          children: value.entities.map<Text>((element) {
+                            return Text(
+                                "${element.type.toString()} ${value.annotatedText}");
+                          }).toList(),
+                        );
+                      }).toList())
+                    : Container()
               ]),
         ),
       ),

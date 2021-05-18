@@ -121,7 +121,7 @@ class GNLEntityExtractor {
                         returnEntity["paymentCardNetwork"] = paymentCardEntity.paymentCardNetwork.rawValue
                         returnEntity["paymentCardNumber"] = paymentCardEntity.paymentCardNumber
                       default:
-                        // print("Entity: %@", entity);
+                        print("Entity: %@", entity);
                     }
                     returnEntities.append(returnEntity)
                     
