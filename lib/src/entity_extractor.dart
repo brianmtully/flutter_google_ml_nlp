@@ -1,4 +1,4 @@
-// @dart=2.9
+// @dart=2.12
 part of google_ml_nlp;
 
 enum DateTimeGranularity {
@@ -26,17 +26,6 @@ enum DateTimeGranularity {
   /// The DateTimeEntity is precise to a specific second - 7.
   second,
 }
-
-List<String> _dateTimeGranularityList = [
-  'unknown',
-  'year',
-  'month',
-  'week',
-  'day',
-  'hour',
-  'minute',
-  'second'
-];
 
 enum ParcelTrackingCarrier {
   /// The parcel tracking carrier is unknown - 0.
@@ -75,20 +64,6 @@ enum ParcelTrackingCarrier {
   /// The parcel tracking carrier is IParcel - 11.
   iParcel,
 }
-List<String> _parcelTrackingCarrierList = [
-  'unknown',
-  'fedEx',
-  'UPS',
-  'DHL',
-  'USPS',
-  'ontrac',
-  'lasership',
-  'israelPost',
-  'swissPost',
-  'MSC',
-  'amazon',
-  'iParcel'
-];
 
 enum PaymentCardNetwork {
   /// The payment card network is unknown - 0.
@@ -127,20 +102,6 @@ enum PaymentCardNetwork {
   /// The payment card is part of the Visa network -11.
   visa,
 }
-List<String> _paymentCardNetworkList = [
-  'unknown',
-  'amex',
-  'dinersClub',
-  'discover',
-  'interPayment',
-  'JCB',
-  'maestro',
-  'mastercard',
-  'mir',
-  'troy',
-  'unionpay',
-  'visa'
-];
 
 enum EntityType {
   /// Identifies a physical address - 1.
@@ -176,24 +137,11 @@ enum EntityType {
   /// Identifies an amount of money - 11.
   money,
 }
-List<String> _entityTypeList = [
-  'address',
-  'datetime',
-  'email',
-  'flight',
-  'iban',
-  'isbn',
-  'payment_card',
-  'phone',
-  'tracking_number',
-  'url',
-  'money'
-];
 
 class EntityExtractor {
   EntityExtractor._(this.options, this._handle) : assert(options != null);
 
-  /// The options for the face detector.
+  /// The options for the entity extractor.
   final EntityExtractorOptions options;
   final int _handle;
   bool _hasBeenOpened = false;
@@ -207,9 +155,10 @@ class EntityExtractor {
         'options': {},
       },
     );
+    return _hasBeenOpened;
   }
 
-  /// Detects faces in the input image.
+  /// annotates.
   Future<List> annotate(String text) async {
     assert(!_isClosed);
     assert(_hasBeenOpened);
@@ -268,9 +217,9 @@ class EntityAnnotation {
 
   final int end;
 
-  final List<Entity> _entities;
+  final List<Entity>? _entities;
 
-  List<Entity> get entities => _entities;
+  List<Entity>? get entities => _entities;
 }
 
 class Entity {
@@ -346,19 +295,19 @@ class Entity {
             ? null
             : data["paymentCardNumber"];
 
-  final EntityType type;
-  final DateTimeGranularity dateTimeGranularity;
-  final double dateTime;
-  final String airlineCode;
-  final String flightNumber;
-  final String unnormalizedCurrency;
-  final int integerPart;
-  final int fractionalPart;
-  final ParcelTrackingCarrier parcelCarrier;
-  final String parcelTrackingNumber;
-  final String countryCode;
-  final String iban;
-  final String isbn;
-  final PaymentCardNetwork paymentCardNetwork;
-  final String paymentCardNumber;
+  final EntityType? type;
+  final DateTimeGranularity? dateTimeGranularity;
+  final double? dateTime;
+  final String? airlineCode;
+  final String? flightNumber;
+  final String? unnormalizedCurrency;
+  final int? integerPart;
+  final int? fractionalPart;
+  final ParcelTrackingCarrier? parcelCarrier;
+  final String? parcelTrackingNumber;
+  final String? countryCode;
+  final String? iban;
+  final String? isbn;
+  final PaymentCardNetwork? paymentCardNetwork;
+  final String? paymentCardNumber;
 }

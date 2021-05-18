@@ -1,4 +1,4 @@
-// @dart=2.9
+// @dart=2.12
 part of google_ml_nlp;
 
 class GoogleNLP {
@@ -18,7 +18,7 @@ class GoogleNLP {
     return version;
   }
 
-  EntityExtractor entityExtractor([EntityExtractorOptions options]) {
+  EntityExtractor entityExtractor([EntityExtractorOptions? options]) {
     return EntityExtractor._(
       options ?? const EntityExtractorOptions(),
       nextHandle++,
